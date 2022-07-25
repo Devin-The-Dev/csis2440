@@ -1,0 +1,30 @@
+main h1{
+  border: 3px solid green;
+  text-align: center;
+}
+
+main section{
+  border: 3px solid orange;
+  display: flex;
+  justify-content: space-around;
+}
+
+main section .card {
+  border: 3px solid skyblue;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+main section .card a{
+  color: inherit;
+  text-decoration: none;
+}
+
+main section .card h2 {
+  text-decoration: underline;
+}
+
+main section .card ul li{
+  list-style: none;
+}
