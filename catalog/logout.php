@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/css/style.css" rel="text/css">
-    <title></title>
-  </head>
-  <body>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">log In/LogOut</a>
-      <a href="#">Create account</a>
-      <a href="#">Cart</a>
-    </nav>
-  </body>
-</html>
+<?php
+  // Removing all session variables
+  session_unset();
+
+  // Destroying the session
+  session_destroy();
+
+  // Redirect user to homepage
+  header('location: .');
+?>
