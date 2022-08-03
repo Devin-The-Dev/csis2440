@@ -1,9 +1,12 @@
 <?php
-  $logIn = '<nav>
+  include './includes/db.php';
+  include './logout.php';
+
+  $loggedOut = '<nav>
               <a href="#">Home</a>
               <a href="./create-account.php">Create Account</a>
             </nav>';
-  $logOut = '';
+  $loggedIn = '';
   $webForm = '<h1>Log In</h1>
               <div class="">
                 <form class="" method="post">
@@ -13,36 +16,26 @@
                   <input type="reset" name="">
                 </form>
               </div>';
-  // DB Connection
-  if ($_SERVER['HTTP_HOST'] == 'localhost')
-  {
-    define('HOST', 'localhost');
-    define('USER', 'root');
-    define('PASS', '1550');
-    define('DB', 'catalog');
-  }
-  else
-  {
-    define('HOST', 'localhost');
-    define('USER', 'devintor_myself');
-    define('PASS', '?XV8m1961b-yBWrGh6Dc');
-    define('DB', 'devintor_catalog');
-  }
-
-  $conn = mysqli_connect(HOST, USER, PASS, DB);
 
   $sql = "SELECT * FROM users";
 
   if(isset($_POST['submit']))
   {
-    //Input from user
+    // Input from user
     $userName = $_POST['username'];
     $password = $_POST['password'];
 
-    // //Hash and salt password
+    // Storing username into it's global-session variable
+    if (isset($_POST['username']))
+    {
+      $_SESSION['username'] = $userName;
+      echo $_SESSION['username'];
+    }
+
+    // Hash and salt password
     $salt = 'afhkljbadvoihaw0237kljabfdvp978';
     $salt2 = 'faoiuhvneoihsf2dg456j8n23gasds';
-    $password = $salt.$password.$salt2;
+    $password = $salt.$password.$salt2; //This may be a problem when trying to login with the 'include' on line 1
     $password = hash('sha512', $password);
 
     //Check in DB for match
@@ -52,19 +45,21 @@
     // Display results if login credentials are correct
     if(mysqli_num_rows($result))
     {
+
       // Display results
       echo "<h1>Welcome to Chad's Gym!</h1>";
       echo "<h2>Start Lifting!</h2>";
 
       //Set display and link variables to empty string
-      $logIn = '';
+      $loggedOut = '';
       // Use cookie to log out user
-      $logOut = '<nav>
+      $loggedIn = '<nav>
                   <a href="#">Home</a>
                   <a href="#">Cart</a>
-                  <a href="#" onclick="">Log Out</a>
+                  <a href="logout.php">Log Out</a>
                 </nav>';
       $webForm = '';
+
     }
     else
     {
@@ -82,8 +77,8 @@
   </head>
   <body>
     <?php
-      echo $logIn;
-      echo $logOut;
+      echo $loggedOut;
+      echo $loggedIn;
     ?>
     <main>
       <section>
