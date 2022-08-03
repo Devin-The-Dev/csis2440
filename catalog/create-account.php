@@ -1,4 +1,7 @@
 <?php
+//DB Connections
+include './includes/db.php';
+
 //Web form
 $webForm = '<form method="post">
               <input type="text" id="username" name="username" placeholder="Username" required>
@@ -13,25 +16,6 @@ $passwordNum = '<p id="number" class="invalid">Password must contain a number</p
 $passwordLetters = '<p id="letter" class="invalid">Password must contain at least 1 letter</p>';
 $passwordLen = '<p id="length" class="invalid">Password must be 8 characters long</p>';
 $passwordsMatch = '<p id="match" class="invalid">Password and "Verify Password" must match</p>';
-
-
-//DB Connections
-  if ($_SERVER['HTTP_HOST'] == 'localhost')
-  {
-    define('HOST', 'localhost');
-    define('USER', 'root');
-    define('PASS', '1550');
-    define('DB', 'catalog');
-  }
-  else
-  {
-    define('HOST', 'localhost');
-    define('USER', 'devintor_myself');
-    define('PASS', '?XV8m1961b-yBWrGh6Dc');
-    define('DB', 'devintor_catalog');
-  }
-
-  $conn = mysqli_connect(HOST, USER, PASS, DB);
 
 // Creating new account
   if(isset($_POST['submit']))
@@ -55,7 +39,8 @@ $passwordsMatch = '<p id="match" class="invalid">Password and "Verify Password" 
     $userNameSQL = "SELECT username FROM users WHERE username = '".$username."';";
     $result = mysqli_query($conn, $userNameSQL);
 
-    if ($username == mysqli_fetch_array($result, MYSQLI_ASSOC)['username'])//Username already exists
+    //Username already exists
+    if ($username == mysqli_fetch_array($result, MYSQLI_ASSOC)['username'])
     {
       $message = "<h2>Username already taken. Please choose a different username</h2>";
       $webForm = '<form method="post">
@@ -67,7 +52,7 @@ $passwordsMatch = '<p id="match" class="invalid">Password and "Verify Password" 
         <input type="reset">
       </form>';
     }
-    else
+    else //Create username
     {
       //Salt and hash the password and the verified password
       $salt = 'afhkljbadvoihaw0237kljabfdvp978';
@@ -109,7 +94,6 @@ $passwordsMatch = '<p id="match" class="invalid">Password and "Verify Password" 
       <?php
         echo $webForm;
         echo $message;
-        // echo $newAccount;
 
         // Account validations
         echo $passwordNum;
