@@ -1,6 +1,5 @@
 <?php
   include './includes/db.php';
-  include './logout.php';
 
   $loggedOut = '<nav>
               <a href="#">Home</a>
