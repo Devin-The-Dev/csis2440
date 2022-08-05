@@ -1,4 +1,8 @@
 <?php
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+
   include './includes/db.php';
 
   $loggedOut = '<nav>
@@ -21,14 +25,14 @@
   if(isset($_POST['submit']))
   {
     // Input from user
-    $userName = $_POST['username'];
-    $password = $_POST['password'];
+    $userName = mysqli_real_escape_string($conn,htmlentities($_POST['username']));
+    $password = mysqli_real_escape_string($conn,htmlentities($_POST['password']));
 
     // Storing username into it's global-session variable
-    if (isset($_POST['username']))
+    if (isset($userName))
     {
       $_SESSION['username'] = $userName;
-      echo $_SESSION['username'];
+      echo '<pre>'.print_r($_SESSION).'</pre>';
     }
 
     // Hash and salt password
@@ -54,6 +58,7 @@
       // Use cookie to log out user
       $loggedIn = '<nav>
                   <a href="#">Home</a>
+                  <a href="./catalog.php">Catalog</a>
                   <a href="#">Cart</a>
                   <a href="logout.php">Log Out</a>
                 </nav>';
